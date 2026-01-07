@@ -49,3 +49,31 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# Validation
+if [[ -z "$URL" ]]; then
+    echo "Error: URL required"
+    echo ""
+    help
+    exit 1
+fi
+
+# Set download directory
+DOWNLOAD_DIR="${DOWNLOAD_DIR:-$DEFAULT_DIR}"
+mkdir -p "$DOWNLOAD_DIR"
+
+# yt-dlp options
+OPTS=(
+    --extract-audio
+    --audio-format mp3
+    --audio-quality 0
+    --output "$DOWNLOAD_DIR/%(title)s.%(ext)s"
+    --embed-thumbnail
+    --add-metadata
+)
+
+[[ "$PLAYLIST" == false ]] && OPTS+=(--no-playlist)
+
+# Download
+yt-dlp "${OPTS[@]}" "$URL" && \
+    echo -e "\e[33m✓ Downloaded to $DOWNLOAD_DIR\e[0m"
