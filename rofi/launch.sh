@@ -34,9 +34,9 @@ TYPE=$(echo -e " Single video\n󰉍 Playlist" | rofi -dmenu \
 
 # Builds command
 CMD="$YT_MUSIC_DL"
-[[ -n "$DEST" ]] && CMD="$CMD -p '$DEST'"
+[[ -n "$DEST" ]] && CMD="$CMD -p $DEST"
 [[ "$TYPE" == "󰉍 Playlist" ]] && CMD="$CMD -P"
-CMD="$CMD '$URL'"
+CMD="$CMD $URL"
 
 # Confirmation
 CONFIRM=$(echo -e "󰸞 Download\n Cancel" | rofi -dmenu \
@@ -47,5 +47,8 @@ CONFIRM=$(echo -e "󰸞 Download\n Cancel" | rofi -dmenu \
 
 # Execution
 if [[ "$CONFIRM" == "󰸞 Download" ]]; then
-    eval "$CMD" && notify-send "YouTube Download" "󰸞 Completed!" || notify-send "YouTube Download" " Failed!"
+    notify-send -i "download" "YouTube Download" "Starting download..."
+    eval "$CMD" && \
+        notify-send -i "checkbox-checked-symbolic" "YouTube Download" "Completed!" || \
+        notify-send -i "dialog-error" "YouTube Download" "Failed!"
 fi
