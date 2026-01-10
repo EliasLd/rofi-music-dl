@@ -1,0 +1,126 @@
+/*******************************************************
+ * ROFI Downloader Menu - One Dark Theme
+ *******************************************************/
+configuration {
+    font:               "JetBrains Mono Nerd Font 14";
+    show-icons:         false;
+    disable-history:    false;
+    sidebar-mode:       false;
+}
+
+* {
+    // One dark palette
+    bg0:    #282c34;
+    bg1:    #21252b;
+    bg2:    #2c313a;
+    bg3:    #3e4451;
+    bg4:    #4b5263;
+
+    red:    #e08c75;
+    orange: #d19a66;
+    yellow: #e5c07b;
+    green:  #98c379;
+    aqua:   #56b6c2;
+    blue:   #61afef;
+    purple: #c678dd;
+
+    fg:     #abb2bf;
+    grey0:  #5c6370;
+    grey1:  #828997;
+    grey2:  #abb2bf;
+
+    background-color:   transparent;
+    text-color:         @fg;
+}
+
+/***** Window layout *****/
+window {
+    background-color:   @bg0;
+    border:             2px;
+    border-color:       @blue;
+    border-radius:      12px;
+    padding:            32px;
+    width:              700px;
+    location:           center;
+    transparency:       "real";
+}
+
+/***** Main container *****/
+mainbox {
+    background-color:   transparent;
+    spacing:            18px;
+    children:           [inputbar, listview, message];
+}
+
+inputbar {
+    children: [ prompt, entry ];
+}
+
+/***** Prompt/Input (for url/dest fields) *****/
+inputbar, entry {
+    background-color:   @bg2;
+    border-radius:      7px;
+    padding:            10px;
+    text-color:         @fg;
+    font:               "JetBrains Mono Nerd Font 14";
+}
+
+prompt {
+    text-color:         @blue;
+    padding:            10px;
+}
+
+entry {
+    placeholder-color:  @grey0;
+    text-color:         @fg;
+}
+
+/***** List of choices (playlist toggle, etc) *****/
+listview {
+    background-color:   transparent;
+    lines:              2;
+    columns:            1;
+    spacing:            5px;
+    layout:             vertical;
+    scrollbar:          false;
+    fixed-height:       false;
+}
+
+/***** Message box (bottom messages and help) *****/
+message, textbox {
+    background-color:   @bg1;
+    border-radius:      8px;
+    text-color:         @grey2;
+    padding:            8px;
+    font:               "JetBrains Mono Nerd Font 12";
+}
+
+/***** Choosable menu elements *****/
+element {
+    background-color:   @bg2;
+    border-radius:      8px;
+    padding:            12px;
+    text-color:         @fg;
+}
+
+element normal.normal {
+    background-color:   @bg2;
+    text-color:         @fg;
+}
+
+element selected.normal {
+    background-color:   @blue;
+    text-color:         @bg0;
+}
+
+element alternate.normal {
+    background-color:   @bg2;
+    text-color:         @fg;
+}
+
+element-text {
+    background-color:   inherit;
+    text-color:         inherit;
+    horizontal-align:   0.5;
+    vertical-align:     0.5;
+}
