@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+escape_markup() {
+    sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g;'
+}
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROFI_THEME="$SCRIPT_DIR/style.rasi"
 YT_MUSIC_DL="/usr/bin/mudow"
@@ -39,16 +43,15 @@ CMD="$YT_MUSIC_DL"
 CMD="$CMD $URL"
 
 # Confirmation
+MESG_CMD=$(echo "Command: $CMD" | escape_markup)
 CONFIRM=$(echo -e "󰸞 Download\n Cancel" | rofi -dmenu \
     -p "Ready to download" \
-    -mesg "Command: $CMD" \
+    -mesg "$MESG_CMD" \
     -theme "$ROFI_THEME" \
     -selected-row 0)
 
 # Execution
 if [[ "$CONFIRM" == "󰸞 Download" ]]; then
     notify-send -i "download" "YouTube Download" "Starting download..."
-    eval "$CMD" && \
-        notify-send -i "checkbox-checked-symbolic" "YouTube Download" "Completed!" || \
-        notify-send -i "dialog-error" "YouTube Download" "Failed!"
+    eval "$CMD" || notify-send -i "dialog-error" "YouTube Download" "Failed!"
 fi
