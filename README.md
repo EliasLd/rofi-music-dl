@@ -53,7 +53,11 @@ Simply run the installation script
 ./install.sh
 ```
 
-This will:
+> [!NOTE]
+> Maybe you don't use rofi or Arch (**btw**) and you just want to install mudow to use it in your terminal, and it's fine!
+You can specify `--mudow-only`.
+
+Depending on what option is used, the script will:
 - Install `mudow` globally (`/usr/bin/mudow`)
 - Copy the Rofi menu and its themes to `~/.config/rofi/rofi-music-dl`
 - Let you launch the Rofi interface with `~/.config/rofi/rofi-music-dl/launch.sh`  

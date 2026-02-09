@@ -10,6 +10,30 @@ REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROFI_CONFIG_DIR="$HOME/.config/rofi/rofi-music-dl"
 ROFI_SRC_DIR="$REPO_DIR/rofi"
 
+INSTALL_MUDOW=true
+INSTALL_ROFI=true
+
+# --- Parse flags ---
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --mudow-only|-m)
+            INSTALL_ROFI=false
+            shift
+            ;;
+        --rofi-only|-r)
+            INSTALL_MUDOW=false
+            shift
+            ;;
+        --help|-h)
+            echo -e "Usage: $0 [--mudow-only|-m] [--rofi-only|-r]"
+            exit 0
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
 echo -e "${BLUE}========================================${NC}"
 echo -e "${BLUE}   mudow & Rofi Music DL Installer${NC}"
 echo -e "${BLUE}========================================${NC}\n"
@@ -46,20 +70,30 @@ copy_rofi_config() {
     echo -e "${GREEN}[OK]${NC} Copied Rofi menu configs to $ROFI_CONFIG_DIR"
 }
 
-# 1. Install mudow script
-echo -e "${BLUE}[1/2]${NC} Installing mudow.sh to /usr/bin/mudow..."
-install_script "$REPO_DIR/mudow.sh"
+# --- Installation process ---
+if $INSTALL_MUDOW; then
+    echo -e "${BLUE}[1/2]${NC} Installing mudow.sh to /usr/bin/mudow..."
+    install_script "$REPO_DIR/mudow.sh"
+fi
 
-# 2. Copy Rofi config
-echo -e "\n${BLUE}[2/2]${NC} Installing Rofi Music DL config..."
-copy_rofi_config
+if $INSTALL_ROFI; then
+    echo -e "\n${BLUE}[2/2]${NC} Installing Rofi Music DL config..."
+    copy_rofi_config
+fi
 
 echo -e "\n${GREEN}========================================${NC}"
 echo -e "${GREEN}       Finished installation! ${NC}"
 echo -e "${GREEN}========================================${NC}\n"
 echo -e "${YELLOW}Notes :${NC}"
-echo "  - mudow is available as a global command"
-echo "  - rofi-music-dl configs are under ~/.config/rofi/rofi-music-dl"
-echo "  - To launch: ~/.config/rofi/rofi-music-dl/launch.sh"
-echo "  - You can symlink or set a keybind to the launcher if desired"
+if $INSTALL_MUDOW && $INSTALL_ROFI; then
+    echo "  - mudow is available as a global command"
+    echo "  - rofi-music-dl configs are under ~/.config/rofi/rofi-music-dl"
+    echo "  - To launch: ~/.config/rofi/rofi-music-dl/launch.sh"
+    echo "  - You can symlink or set a keybind to the launcher if desired"
+    echo ""
+elif $INSTALL_MUDOW; then
+    echo "  - mudow installed globally, no Rofi"
+elif $INSTALL_ROFI; then
+    echo "  - Only rofi-music-dl config installed, no mudow (why?)"
+fi
 echo ""
