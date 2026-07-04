@@ -2,6 +2,7 @@
 
 # Configuration
 DEFAULT_DIR="$HOME/Music/$(date +%F)-music"
+ARCHIVE_FILE="archive.txt"
 
 # Parse arguments
 help() {
@@ -62,6 +63,10 @@ fi
 DOWNLOAD_DIR="${DOWNLOAD_DIR:-$DEFAULT_DIR}"
 mkdir -p "$DOWNLOAD_DIR"
 
+# Define full path for the archive file inside the download directory
+ARCHIVE_PATH="$DOWNLOAD_DIR/$ARCHIVE_FILE"
+
+
 # yt-dlp options
 OPTS=(
     --extract-audio
@@ -70,6 +75,7 @@ OPTS=(
     --output "$DOWNLOAD_DIR/%(title)s.%(ext)s"
     --embed-thumbnail
     --add-metadata
+    --download-archive "$ARCHIVE_PATH"
 )
 
 [[ "$PLAYLIST" == false ]] && OPTS+=(--no-playlist)
